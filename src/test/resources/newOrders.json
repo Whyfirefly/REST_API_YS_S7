@@ -1,0 +1,16 @@
+[
+{
+    "firstName": "Зоя",
+    "lastName": "Альбертовична",
+    "address": "Победа, 4",
+    "metroStation": 1,
+    "phone": "+7-900-345-33-32",
+    "rentTime": 2,
+    "deliveryDate": "2024-11-30",
+    "comment": "Please, be careful",
+    "color": [
+        "GREY"
+    ]
+}
+
+]
