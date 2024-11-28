@@ -1,40 +1,31 @@
 package pojo;
 
-public class CourierCreate {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CreateCourier {
 
   private String login;
   private String password;
   private String firstName;
+  private Integer id;
 
-  public CourierCreate(String login, String password, String firstName) {
+
+  public CreateCourier(String login, String password, String firstName) {
     this.login = login;
     this.password = password;
     this.firstName = firstName;
   }
 
-  public CourierCreate() {}
+  public CreateCourier() {}
 
-  public String getLogin() {
-    return login;
+  public Integer getId() {
+    return id;
   }
 
-  public void setLogin(String login) {
-    this.login = login;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setId(Integer id) {
+    this.id = id;
   }
 }
