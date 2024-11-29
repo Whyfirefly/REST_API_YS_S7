@@ -8,4 +8,6 @@ public class RandomData {
   public static final String RANDOM_LOGIN = RandomStringUtils.randomAlphabetic(10);
   public static final String RANDOM_PASS = RandomStringUtils.randomNumeric(10);
   public static final String RANDOM_NAME = RandomStringUtils.randomAlphabetic(10);
+  public static final String RANDOM_ID = RandomStringUtils.randomNumeric(3);
+
 }
