@@ -1,7 +1,6 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
@@ -9,7 +8,6 @@ import org.junit.Test;
 import steps.CourierSteps;
 
 import static constants.RandomData.*;
-import static constants.Urls.*;
 import static org.hamcrest.Matchers.equalTo;
 
 public class CourierCreateTest {
@@ -18,8 +16,7 @@ public class CourierCreateTest {
 
   @Before
   public void setUp() {
-    RestAssured.baseURI = BASE_URL;
-    courierSteps = new CourierSteps();
+        courierSteps = new CourierSteps();
   }
 
   @Step("Проверка тела ответа - (ok: true) и статус кода сервера на первую корректную регистрацию - 201")
@@ -45,9 +42,11 @@ public class CourierCreateTest {
   public void creatingCourierPositive() {
     Response responseCreate = courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     checkAnswerValidRegistration(responseCreate);
+    System.out.println(responseCreate.asString());
 
     Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
     checkAnswerThenValidDeleting(responseDelete);
+    System.out.println(responseDelete.asString());
   }
 
   @Step("Проверка тела ответа при попытке повторной регистрации под уже существующим логином - 409 Сonflict")
@@ -65,6 +64,12 @@ public class CourierCreateTest {
 
     Response responseIdentical = courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     checkAnswerReuseRegistrationData(responseIdentical);
+    System.out.println(responseIdentical.asString());
+
+    Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
+    checkAnswerThenValidDeleting(responseDelete);
+    System.out.println(responseDelete.asString());
+
   }
 
   @Test
@@ -74,8 +79,12 @@ public class CourierCreateTest {
     courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     Response responseExisting = courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
                 checkAnswerReuseRegistrationData(responseExisting);
+    System.out.println(responseExisting.asString());
+
     Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
     checkAnswerThenValidDeleting(responseDelete);
+    System.out.println(responseDelete.asString());
+
   }
 
   @Step("Проверка тела ответа и статус кода сервера при неполных данных при регистрации - 400 Bad Request")
@@ -91,6 +100,8 @@ public class CourierCreateTest {
   public void creatingCourierWithoutLoginBadRequest() {
     Response responseWithoutLogin = courierSteps.createCourier("", RANDOM_PASS, RANDOM_NAME);
     checkAnswerWithNotEnoughRegData(responseWithoutLogin);
+    System.out.println(responseWithoutLogin.asString());
+
   }
 
   @Test
@@ -99,6 +110,8 @@ public class CourierCreateTest {
   public void creatingCourierWithoutPasswordBadRequest() {
     Response responseWithoutPass = courierSteps.createCourier(RANDOM_LOGIN, "", RANDOM_NAME);
     checkAnswerWithNotEnoughRegData(responseWithoutPass);
+    System.out.println(responseWithoutPass.asString());
+
   }
 
   @Test
@@ -107,8 +120,12 @@ public class CourierCreateTest {
   public void creatingCourierWithoutNamePositive() {
     Response responseWithoutName = courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, "");
     checkAnswerValidRegistration(responseWithoutName);
+    System.out.println(responseWithoutName.asString());
+
     Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
     checkAnswerThenValidDeleting(responseDelete);
+    System.out.println(responseDelete.asString());
+
   }
 
 }
