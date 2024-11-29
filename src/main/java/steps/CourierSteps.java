@@ -1,6 +1,5 @@
 package steps;
 
-import constants.RandomData;
 import constants.Urls;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
@@ -9,7 +8,7 @@ import io.restassured.specification.RequestSpecification;
 import pojo.CreateCourier;
 import pojo.LoginCourier;
 
-import static constants.RandomData.RANDOM_ID;
+import static constants.RandomData.RANDOM_COURIER_ID;
 import static constants.Urls.*;
 import static io.restassured.RestAssured.given;
 
@@ -60,6 +59,6 @@ public class CourierSteps {
   public Response setRandomCourierId(String id) {
     return requestSpecification()
             .when()
-            .post(COURIER_DELETE+RANDOM_ID);
+            .post(COURIER_DELETE+ RANDOM_COURIER_ID);
   }
 }

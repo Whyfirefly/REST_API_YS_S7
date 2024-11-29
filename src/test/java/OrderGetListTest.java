@@ -10,6 +10,7 @@ import steps.OrderSteps;
 import static io.restassured.RestAssured.given;
 import static constants.Urls.*;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.*;
 
 public class OrderGetListTest {
@@ -52,7 +53,6 @@ public class OrderGetListTest {
             .and()
             .assertThat().body("orders", is(not(empty())));
     System.out.println(given().body("orders"));
-
   }
 
 }

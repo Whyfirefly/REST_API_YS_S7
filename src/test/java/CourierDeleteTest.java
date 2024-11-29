@@ -62,7 +62,7 @@ public class CourierDeleteTest {
   @Description("Проверка неуспешного удаления курьера c несуществующим id")
   public void deleteCourierNegativeWithUnrealId() {
 
-    Response responseDelete = courierSteps.setRandomCourierId(RANDOM_ID);
+    Response responseDelete = courierSteps.setRandomCourierId(RANDOM_COURIER_ID);
     checkAnswerThenInValidDeletingWithUnrealId(responseDelete);
     System.out.println(responseDelete);
   }
