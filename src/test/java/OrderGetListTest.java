@@ -2,64 +2,43 @@ import constants.Urls;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import steps.OrderSteps;
 
-import java.io.File;
-
 import static io.restassured.RestAssured.given;
 import static constants.Urls.*;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 public class OrderGetListTest {
   OrderSteps orderSteps;
 
   @Before
   public void setUp() {
-    RestAssured.baseURI = BASE_URL;
     orderSteps = new OrderSteps();
   }
 
-  @Step("Создание заказов для того, чтобы проверить список заказов")
-  @Test
-  public void createNewOrderAndCheckResponseJsonInFile1(){
-    File json = new File("src/test/resources/newOrders.json");
-    Response response =
-            given()
-                    .header("Content-type", "application/json")
-                    .and()
-                    .body(json)
-                    .when()
-                    .post(ORDER_POST_CREATE);
-              response.then().assertThat().statusCode(201)
-                      .and()
-                      .assertThat().body("track", Matchers.notNullValue());
-        System.out.println(response.body().asString());
-  }
-
-  @Test
-  public void createNewOrderAndCheckResponseJsonInFile2(){
-    File json = new File("src/test/resources/newOrders.json");
-    Response response =
-            given()
-                    .header("Content-type", "application/json")
-                    .and()
-                    .body(json)
-                    .when()
-                    .post(ORDER_POST_CREATE);
-    response.then().assertThat().statusCode(201)
+  @Step("Проверка тела ответа при создании заказа с \"track\"")
+  public void checkOrderTrackNotNullNew(Response response) {
+    response.then()
+            .statusCode(201)
             .and()
-            .assertThat().body("track", Matchers.notNullValue());
-    System.out.println(response.body().asString());
+            .assertThat().body("track", notNullValue());
   }
 
-  //не могу понять, почему этот шаг работает через раз то ок, то 504
+  @Step("Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов")
+  @Test
+  @DisplayName("Успешное создание заказа")
+  @Description(value = "Проверка, что заказ создаётся из JSON файла успешно")
+  public void creatingOrderSuccessWithJson() {
+    OrderSteps orderStep = new OrderSteps();
+    Response createOrderResponse = orderStep.createNewOrderFromJsonInFile();
+    checkOrderTrackNotNullNew(createOrderResponse);
+    System.out.println(createOrderResponse.asString());
+  }
+
   @Step("Проверка наличия списка заказов")
   @Test
   @DisplayName("Получение списка заказов")
@@ -72,5 +51,8 @@ public class OrderGetListTest {
             .statusCode(200)
             .and()
             .assertThat().body("orders", is(not(empty())));
+    System.out.println(given().body("orders"));
+
   }
+
 }

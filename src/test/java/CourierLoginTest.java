@@ -1,7 +1,6 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import steps.CourierSteps;
 
 import static constants.RandomData.*;
-import static constants.Urls.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -20,7 +18,6 @@ public class CourierLoginTest {
 
   @Before
   public void setUp() {
-    RestAssured.baseURI = BASE_URL;
     courierSteps = new CourierSteps();
     courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
   }
@@ -37,7 +34,7 @@ public class CourierLoginTest {
   public void loginCourierSuccess() {
     Response loginResponse = courierSteps.loginCourier(RANDOM_LOGIN, RANDOM_PASS);
     checkAnswerAndPresenceId(loginResponse);
-
+    System.out.println(loginResponse.asString());
   }
 
   @Step("Проверка ошибки системы при попытке входа с несуществующей парой логин-пароль, статус-код 404 Not Found")
@@ -52,7 +49,7 @@ public class CourierLoginTest {
   public void loginCourierWithIncorrectLoginFailed() {
     Response wrongLoginResponse = courierSteps.loginCourier("Ohhhh", RANDOM_PASS);
     checkAnswerWithWrongData(wrongLoginResponse);
-
+    System.out.println(wrongLoginResponse.asString());
   }
 
   @Test
@@ -61,7 +58,7 @@ public class CourierLoginTest {
   public void loginCourierWithIncorrectPassFailed() {
     Response wrongPassResponse = courierSteps.loginCourier(RANDOM_LOGIN, "9876");
     checkAnswerWithWrongData(wrongPassResponse);
-
+    System.out.println(wrongPassResponse.asString());
   }
 
   @Step("Проверка ошибки системы при попытке входа без логина или пароля, статус-код 400 Bad Request ")
@@ -76,7 +73,7 @@ public class CourierLoginTest {
   public void loginCourierWithoutLoginFailed() {
     Response withoutLoginResponse = courierSteps.loginCourier("", RANDOM_PASS);
     checkAnswerWithoutData(withoutLoginResponse);
-
+    System.out.println(withoutLoginResponse.asString());
   }
 
   @Test
@@ -85,6 +82,8 @@ public class CourierLoginTest {
   public void loginCourierWithoutPassFailed() {
     Response withoutPassResponse = courierSteps.loginCourier(RANDOM_LOGIN, "");
     checkAnswerWithoutData(withoutPassResponse);
+    System.out.println(withoutPassResponse.asString());
+
   }
 
   @Step("Проверка тела ответа - (ok: true) и статус кода сервера на удаление курьера - 200")
@@ -99,6 +98,7 @@ public class CourierLoginTest {
   public void afterTestDelete() {
     Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
     checkAnswerThenValidDeleting(responseDelete);
+    System.out.println(responseDelete.asString());
   }
 
 }

@@ -1,9 +1,7 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.Before;
 import pojo.OrderCreate;
 import steps.OrderSteps;
 import org.junit.Test;
@@ -12,7 +10,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.List;
 
-import static constants.Urls.BASE_URL;
 import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(Parameterized.class)
@@ -35,11 +32,6 @@ public class OrderCreateTest {
     };
   }
 
-  @Before
-  public void setUp() {
-    RestAssured.baseURI = BASE_URL;
-  }
-
   @Step("Проверка тела ответа при создании заказа с \"track\"")
   public void checkOrderTrackNotNullNew(Response response) {
     response.then()
@@ -51,11 +43,12 @@ public class OrderCreateTest {
   @Test
   @DisplayName("Успешное создание заказа")
   @Description(value = "Проверка, что заказ создаётся с различными вариациями цвета самоката")
-  public void creatingOrderSuccess() {
+  public void creatingOrderSuccessWthParam() {
     OrderSteps orderStep = new OrderSteps();
-    OrderCreate order = new OrderCreate("Василий", "Васильев", "Москва", "8", "+79224568299", 14, "2023-02-15", "Скорее!", colour);
-    Response createOrderResponse = orderStep.createOrder(order);
+    OrderCreate order = new OrderCreate("Виктор", "Пяточкин", "Воронеж", "8", "+79244568270", 3, "2024-11-29", "Пожалуйста, осторожнее.", colour);
+    Response createOrderResponse = orderStep.createOrderWithLine(order);
     checkOrderTrackNotNullNew(createOrderResponse);
+    System.out.println(createOrderResponse.asString());
   }
 
 }
