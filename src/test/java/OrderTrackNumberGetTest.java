@@ -1,4 +1,3 @@
-
 import constants.Urls;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
@@ -8,8 +7,6 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 import steps.OrderSteps;
-
-
 
 import static constants.RandomData.RANDOM_ORDER_TRACK;
 import static constants.Urls.ORDER_GET_BY_NUMBER;
@@ -33,9 +30,7 @@ public class OrderTrackNumberGetTest {
             .statusCode(201)
             .and()
             .assertThat().body("track", notNullValue());
-    //код для десериализации ответа в объект response
     MatcherAssert.assertThat(response, notNullValue()) ;
-
   }
 
   @Step("Создаем заказ, затем проверяем, что заказ получен по существующему номеру заказа - статус код 200")
@@ -48,12 +43,17 @@ public class OrderTrackNumberGetTest {
     OrderSteps orderStep = new OrderSteps();
     Response createOrderResponse = orderStep.createNewOrderFromJsonInFile();
     checkOrderTrackNotNullNew(createOrderResponse);
-    System.out.println(createOrderResponse.asString());
+    System.out.println("Response of API track is " + createOrderResponse.asString());
+    //Response class has method path() using that, user can give the json path to get the particular value.
+    //То есть я ответ API конвертирую в строку и из строки достаю значение нужного мне ключа
+    String OrderNumberTrack = createOrderResponse.path("track").toString();
+    //convert a String to an int in Java
+    int TrackNumber = Integer.parseInt(OrderNumberTrack);
+    System.out.println("New order number track is " + TrackNumber);
 
-//мне нужно ковертировать JSON createOrderResponse и получить значение ключа track, но я не могу разобраться, как это сделать
     given().log().all()
            .baseUri(Urls.BASE_URL)
-            .queryParam("?t", createOrderResponse)
+            .queryParam("?t", TrackNumber)
             .get(ORDER_GET_BY_NUMBER)
             .then()
             .statusCode(200)
@@ -63,7 +63,6 @@ public class OrderTrackNumberGetTest {
 
   }
 
-
   @Step("Проверка получения заказа по несуществующему номеру id")
   @Test
   @DisplayName("Получаем ошибку при попытке поиска заказа по несуществующему номеру")
@@ -72,7 +71,7 @@ public class OrderTrackNumberGetTest {
 
     given().log().all()
             .baseUri(Urls.BASE_URL)
-            .queryParam("t", RANDOM_ORDER_TRACK)
+            .queryParam("?t", RANDOM_ORDER_TRACK)
             .get(ORDER_GET_BY_NUMBER)
             .then()
             .statusCode(404)
@@ -89,7 +88,7 @@ public class OrderTrackNumberGetTest {
 
     given().log().all()
             .baseUri(Urls.BASE_URL)
-            .queryParam("t", "")
+            .queryParam("?t", "")
             .get(ORDER_GET_BY_NUMBER)
             .then()
             .statusCode(400)

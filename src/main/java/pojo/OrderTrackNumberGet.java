@@ -1,25 +1,21 @@
 package pojo;
-import lombok.Getter;
-import lombok.Setter;
-
-
 
 public class OrderTrackNumberGet {
 
 
   //Трекинговый номер заказа
-  private Integer trackNumber;
+  private int trackOrderNumber;
 
-  public Integer getTrackNumber() {
-    return trackNumber;
+  public int getTrackOrderNumber() {
+    return trackOrderNumber;
   }
 
-  public void setTrackNumber(Integer t) {
-    this.trackNumber = trackNumber;
+  public void setTrackOrderNumber(int t) {
+    this.trackOrderNumber = trackOrderNumber;
   }
 
   public OrderTrackNumberGet(int t) {
-    this.trackNumber = t;
+    this.trackOrderNumber = t;
   }
 
   public OrderTrackNumberGet( ) {
