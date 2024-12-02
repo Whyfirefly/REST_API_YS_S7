@@ -53,7 +53,7 @@ public class CourierCreateTest {
   public void checkAnswerReuseRegistrationData(Response response) {
     response.then()
             .statusCode(409)
-            .and().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+            .and().assertThat().body("message", equalTo("Этот логин уже используется."));
   }
 
   @Test
