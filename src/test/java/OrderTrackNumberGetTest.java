@@ -51,16 +51,15 @@ public class OrderTrackNumberGetTest {
     int TrackNumber = Integer.parseInt(OrderNumberTrack);
     System.out.println("New order number track is " + TrackNumber);
 
+    //Проверка ответа 200 и непустоты тела ответа при вводе существующего треккингового номера заказа
     given().log().all()
            .baseUri(Urls.BASE_URL)
-            .queryParam("?t", TrackNumber)
+            .queryParam("t", TrackNumber)
             .get(ORDER_GET_BY_NUMBER)
             .then()
             .statusCode(200)
             .and()
             .assertThat().body("order", is(not(empty())));
-    System.out.println(given().body("order"));
-
   }
 
   @Step("Проверка получения заказа по несуществующему номеру id")
@@ -71,7 +70,7 @@ public class OrderTrackNumberGetTest {
 
     given().log().all()
             .baseUri(Urls.BASE_URL)
-            .queryParam("?t", RANDOM_ORDER_TRACK)
+            .queryParam("t", RANDOM_ORDER_TRACK)
             .get(ORDER_GET_BY_NUMBER)
             .then()
             .statusCode(404)
@@ -88,7 +87,7 @@ public class OrderTrackNumberGetTest {
 
     given().log().all()
             .baseUri(Urls.BASE_URL)
-            .queryParam("?t", "")
+            .queryParam("t", "")
             .get(ORDER_GET_BY_NUMBER)
             .then()
             .statusCode(400)
