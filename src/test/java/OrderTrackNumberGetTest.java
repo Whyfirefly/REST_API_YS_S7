@@ -76,7 +76,6 @@ public class OrderTrackNumberGetTest {
             .statusCode(404)
             .and()
             .assertThat().body("message", equalTo("Заказ не найден"));
-
   }
 
   @Step("Проверка получения заказа без id")
@@ -93,7 +92,5 @@ public class OrderTrackNumberGetTest {
             .statusCode(400)
             .and()
             .assertThat().body("message", equalTo("Недостаточно данных для поиска"));
-    System.out.println(given().body("message"));
-
   }
 }
