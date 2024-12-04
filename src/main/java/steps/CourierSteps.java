@@ -55,10 +55,10 @@ public class CourierSteps {
             .delete(COURIER_DELETE+(getCourierId(login, pass)));
   }
 
-  @Step("Получение рандомного id курьера")
+  @Step("Получение рандомного несуществующего id курьера")
   public Response setRandomCourierId(String id) {
     return requestSpecification()
             .when()
-            .post(COURIER_DELETE+ RANDOM_COURIER_ID);
+            .post(COURIER_DELETE + RANDOM_COURIER_ID);
   }
 }

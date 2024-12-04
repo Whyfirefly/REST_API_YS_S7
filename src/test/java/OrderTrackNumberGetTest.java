@@ -46,9 +46,9 @@ public class OrderTrackNumberGetTest {
     System.out.println("Response of API track is " + createOrderResponse.asString());
     //Response class has method path() using that, user can give the json path to get the particular value.
     //То есть я ответ API конвертирую в строку и из строки достаю значение нужного мне ключа
-    String OrderNumberTrack = createOrderResponse.path("track").toString();
+    String orderNumberTrack = createOrderResponse.path("track").toString();
     //convert a String to an int in Java
-    int TrackNumber = Integer.parseInt(OrderNumberTrack);
+    int TrackNumber = Integer.parseInt(orderNumberTrack);
     System.out.println("New order number track is " + TrackNumber);
 
     //Проверка ответа 200 и непустоты тела ответа при вводе существующего треккингового номера заказа
@@ -60,6 +60,7 @@ public class OrderTrackNumberGetTest {
             .statusCode(200)
             .and()
             .assertThat().body("order", is(not(empty())));
+    //.body().as(OrderCreatedMain.class) - добавить в новый класс
   }
 
   @Step("Проверка получения заказа по несуществующему номеру id")
