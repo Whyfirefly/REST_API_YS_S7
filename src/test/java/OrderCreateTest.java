@@ -2,6 +2,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import pojo.OrderCreate;
 import steps.OrderSteps;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class OrderCreateTest {
   @Step("Проверка тела ответа при создании заказа с \"track\"")
   public void checkOrderTrackNotNullNew(Response response) {
     response.then()
-            .statusCode(201)
+            .statusCode(HttpStatus.SC_CREATED)
             .and()
             .assertThat().body("track", notNullValue());
   }

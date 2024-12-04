@@ -3,8 +3,10 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pojo.OrderCreatedMain;
@@ -27,20 +29,35 @@ public class OrderAcceptanceTest {
     courierSteps = new CourierSteps();
     orderSteps = new OrderSteps();
   }
+  @Step("Проверка тела ответа - (ok: true) и статус кода сервера на удаление курьера - 200")
+  public void checkAnswerThenValidDeleting(Response response) {
+    response
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true));
+  }
+
+  @After
+  public void cleanUp() {
+    if (courierSteps != null) {
+      Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
+      checkAnswerThenValidDeleting(responseDelete);
+      System.out.println(responseDelete.asString());}
+  }
 
   //создаем курьера, получаем его id в системе
   @Step("Проверка тела ответа - (ok: true) и статус кода сервера на первую корректную регистрацию - 201")
   public void checkAnswerValidRegistration(Response response) {
     response
             .then()
-            .statusCode(201)
+            .statusCode(HttpStatus.SC_CREATED)
             .and().assertThat().body("ok", CoreMatchers.equalTo(true));
   }
 
   @Step("Проверка тела ответа при создании заказа с \"track\"")
   public void checkOrderTrackNotNullNew(Response response) {
     response.then()
-            .statusCode(201)
+            .statusCode(HttpStatus.SC_CREATED)
             .and()
             .assertThat().body("track", notNullValue());
     MatcherAssert.assertThat(response, notNullValue()) ;
@@ -87,7 +104,7 @@ public class OrderAcceptanceTest {
             .queryParam("courierId", courierID)
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("ok", CoreMatchers.equalTo(true));
   }
 
@@ -132,7 +149,7 @@ public class OrderAcceptanceTest {
             .queryParam("courierId", courierID)
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("ok", CoreMatchers.equalTo(true));
 
     //Попытка повторного принятия заказа по тем же id заказа и курьера
@@ -141,7 +158,7 @@ public class OrderAcceptanceTest {
             .queryParam("courierId", courierID)
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
-            .statusCode(409)
+            .statusCode(HttpStatus.SC_CONFLICT)
             .and().assertThat().body("message", equalTo("Этот заказ уже в работе"));
   }
 
@@ -163,7 +180,7 @@ public class OrderAcceptanceTest {
             .queryParam("courierId", RANDOM_COURIER_ID)
             .put(ORDER_PUT_ACCEPT_ORDER)
             .then()
-            .statusCode(400)
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
             .and().assertThat().body("message", equalTo("Недостаточно данных для поиска"));
   }
 
@@ -201,7 +218,7 @@ public class OrderAcceptanceTest {
             .queryParam("courierId", "")
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
-            .statusCode(400)
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
             .and().assertThat().body("message", equalTo("Недостаточно данных для поиска"));
 
   }
@@ -224,7 +241,7 @@ public class OrderAcceptanceTest {
             .queryParam("courierId", courierID)
             .put(ORDER_PUT_ACCEPT_ORDER + RANDOM_ORDER_ID)
             .then()
-            .statusCode(404)
+            .statusCode(HttpStatus.SC_NOT_FOUND)
             .and().assertThat().body("message", equalTo("Заказа с таким id не существует"));
 
   }
@@ -264,7 +281,7 @@ public class OrderAcceptanceTest {
             .queryParam("courierId", RANDOM_COURIER_ID)
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
-            .statusCode(404)
+            .statusCode(HttpStatus.SC_NOT_FOUND)
             .and().assertThat().body("message", equalTo("Курьера с таким id не существует"));
 
   }

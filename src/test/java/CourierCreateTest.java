@@ -2,7 +2,9 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import steps.CourierSteps;
@@ -19,22 +21,29 @@ public class CourierCreateTest {
         courierSteps = new CourierSteps();
   }
 
-  @Step("Проверка тела ответа - (ok: true) и статус кода сервера на первую корректную регистрацию - 201")
-  public void checkAnswerValidRegistration(Response response) {
-    response
-            .then()
-            .statusCode(201)
-            .and().assertThat().body("ok", CoreMatchers.equalTo(true));
-  }
-
   @Step("Проверка тела ответа - (ok: true) и статус кода сервера на удаление курьера - 200")
   public void checkAnswerThenValidDeleting(Response response) {
     response
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("ok", CoreMatchers.equalTo(true));
   }
 
+  @After
+  public void cleanUp() {
+    if (courierSteps != null) {
+      Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
+      checkAnswerThenValidDeleting(responseDelete);
+      System.out.println(responseDelete.asString());}
+  }
+
+  @Step("Проверка тела ответа - (ok: true) и статус кода сервера на первую корректную регистрацию - 201")
+  public void checkAnswerValidRegistration(Response response) {
+    response
+            .then()
+            .statusCode(HttpStatus.SC_CREATED)
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true));
+  }
 
   @Test
   @DisplayName("Создание нового курьера")
@@ -44,15 +53,12 @@ public class CourierCreateTest {
     checkAnswerValidRegistration(responseCreate);
     System.out.println(responseCreate.asString());
 
-    Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
-    checkAnswerThenValidDeleting(responseDelete);
-    System.out.println(responseDelete.asString());
   }
 
   @Step("Проверка тела ответа при попытке повторной регистрации под уже существующим логином - 409 Сonflict")
   public void checkAnswerReuseRegistrationData(Response response) {
     response.then()
-            .statusCode(409)
+            .statusCode(HttpStatus.SC_CONFLICT)
             .and().assertThat().body("message", equalTo("Этот логин уже используется."));
   }
 
@@ -65,11 +71,6 @@ public class CourierCreateTest {
     Response responseIdentical = courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     checkAnswerReuseRegistrationData(responseIdentical);
     System.out.println(responseIdentical.asString());
-
-    Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
-    checkAnswerThenValidDeleting(responseDelete);
-    System.out.println(responseDelete.asString());
-
   }
 
   @Test
@@ -80,17 +81,12 @@ public class CourierCreateTest {
     Response responseExisting = courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
                 checkAnswerReuseRegistrationData(responseExisting);
     System.out.println(responseExisting.asString());
-
-    Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
-    checkAnswerThenValidDeleting(responseDelete);
-    System.out.println(responseDelete.asString());
-
   }
 
   @Step("Проверка тела ответа и статус кода сервера при неполных данных при регистрации - 400 Bad Request")
   public void checkAnswerWithNotEnoughRegData(Response response) {
     response.then()
-            .statusCode(400)
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
             .and().assertThat().body("message", CoreMatchers.equalTo("Недостаточно данных для создания учетной записи"));
   }
 
@@ -121,10 +117,6 @@ public class CourierCreateTest {
     Response responseWithoutName = courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, "");
     checkAnswerValidRegistration(responseWithoutName);
     System.out.println(responseWithoutName.asString());
-
-    Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
-    checkAnswerThenValidDeleting(responseDelete);
-    System.out.println(responseDelete.asString());
 
   }
 

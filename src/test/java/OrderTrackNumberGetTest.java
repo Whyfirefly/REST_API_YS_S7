@@ -3,6 +3,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +58,7 @@ public class OrderTrackNumberGetTest {
             .queryParam("t", TrackNumber)
             .get(ORDER_GET_BY_NUMBER)
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.SC_OK)
             .and()
             .assertThat().body("order", is(not(empty())));
     //.body().as(OrderCreatedMain.class) - добавить в новый класс
@@ -74,7 +75,7 @@ public class OrderTrackNumberGetTest {
             .queryParam("t", RANDOM_ORDER_TRACK)
             .get(ORDER_GET_BY_NUMBER)
             .then()
-            .statusCode(404)
+            .statusCode(HttpStatus.SC_NOT_FOUND)
             .and()
             .assertThat().body("message", equalTo("Заказ не найден"));
   }
@@ -90,7 +91,7 @@ public class OrderTrackNumberGetTest {
             .queryParam("t", "")
             .get(ORDER_GET_BY_NUMBER)
             .then()
-            .statusCode(400)
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
             .and()
             .assertThat().body("message", equalTo("Недостаточно данных для поиска"));
   }

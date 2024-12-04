@@ -3,6 +3,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import steps.OrderSteps;
@@ -49,7 +50,7 @@ public class OrderGetListTest {
             .baseUri(Urls.BASE_URL)
             .get(ORDER_GET_LIST)
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.SC_OK)
             .and()
             .assertThat().body("orders", is(not(empty())));
     System.out.println(given().body("orders"));

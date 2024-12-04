@@ -2,6 +2,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import steps.CourierSteps;
@@ -21,7 +22,7 @@ public class CourierDeleteTest {
   public void checkAnswerThenInValidDeletingWithoutId(Response response) {
     response
             .then()
-            .statusCode(500)
+            .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
             .and().assertThat().body("message", equalTo("invalid input syntax for type integer: \"null\""));
   }
 
@@ -52,7 +53,7 @@ public class CourierDeleteTest {
   public void checkAnswerThenInValidDeletingWithUnrealId(Response response) {
     response
             .then()
-            .statusCode(404)
+            .statusCode(HttpStatus.SC_NOT_FOUND)
             .and().assertThat().body("message", equalTo("Not Found."));
   }
 

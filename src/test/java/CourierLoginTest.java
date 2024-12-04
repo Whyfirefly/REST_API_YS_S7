@@ -2,6 +2,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +26,8 @@ public class CourierLoginTest {
   @Step("Проверка наличия id курьера по его логину и паролю - статус код 200")
   public void checkAnswerAndPresenceId(Response response) {
     response.then()
-            .statusCode(200).and().assertThat().body("id", notNullValue());
+            .statusCode(HttpStatus.SC_OK)
+            .and().assertThat().body("id", notNullValue());
   }
 
   @Test
@@ -40,7 +42,8 @@ public class CourierLoginTest {
   @Step("Проверка ошибки системы при попытке входа с несуществующей парой логин-пароль, статус-код 404 Not Found")
   public void checkAnswerWithWrongData(Response response) {
     response.then()
-            .statusCode(404).assertThat().body("message", equalTo("Учетная запись не найдена"));
+            .statusCode(HttpStatus.SC_NOT_FOUND)
+            .assertThat().body("message", equalTo("Учетная запись не найдена"));
   }
 
   @Test
@@ -64,7 +67,8 @@ public class CourierLoginTest {
   @Step("Проверка ошибки системы при попытке входа без логина или пароля, статус-код 400 Bad Request ")
   public void checkAnswerWithoutData(Response response) {
     response.then()
-            .statusCode(400).assertThat().body("message", equalTo("Недостаточно данных для входа"));
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
+            .assertThat().body("message", equalTo("Недостаточно данных для входа"));
   }
 
   @Test
@@ -90,7 +94,7 @@ public class CourierLoginTest {
   public void checkAnswerThenValidDeleting(Response response) {
     response
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("ok", CoreMatchers.equalTo(true));
   }
 
