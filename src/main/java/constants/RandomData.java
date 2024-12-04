@@ -8,8 +8,7 @@ public class RandomData {
   public static final String RANDOM_LOGIN = RandomStringUtils.randomAlphabetic(10);
   public static final String RANDOM_PASS = RandomStringUtils.randomNumeric(10);
   public static final String RANDOM_NAME = RandomStringUtils.randomAlphabetic(10);
-  public static final String RANDOM_COURIER_ID = RandomStringUtils.randomNumeric(3);
+  public static final String RANDOM_COURIER_ID = RandomStringUtils.randomNumeric(6);
   public static final int RANDOM_ORDER_TRACK = Integer.parseInt(RandomStringUtils.randomNumeric(6));
-
-
+  public static final String RANDOM_ORDER_ID = RandomStringUtils.randomNumeric(7);
 }
