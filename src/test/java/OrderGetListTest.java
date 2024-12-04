@@ -30,7 +30,6 @@ public class OrderGetListTest {
             .assertThat().body("track", notNullValue());
   }
 
-  @Step("Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов")
   @Test
   @DisplayName("Успешное создание заказа")
   @Description(value = "Проверка, что заказ создаётся из JSON файла успешно")
@@ -38,10 +37,8 @@ public class OrderGetListTest {
     OrderSteps orderStep = new OrderSteps();
     Response createOrderResponse = orderStep.createNewOrderFromJsonInFile();
     checkOrderTrackNotNullNew(createOrderResponse);
-    System.out.println(createOrderResponse.asString());
   }
 
-  @Step("Проверка наличия списка заказов")
   @Test
   @DisplayName("Получение списка заказов")
   @Description("Получение списка заказов, проверка наличия списка, что он не пустой")
@@ -52,8 +49,7 @@ public class OrderGetListTest {
             .then()
             .statusCode(HttpStatus.SC_OK)
             .and()
-            .assertThat().body("orders", is(not(empty())));
-    System.out.println(given().body("orders"));
+            .assertThat().body("orders", is(not(empty()))).log().all();
   }
 
 }

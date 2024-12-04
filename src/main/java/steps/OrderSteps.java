@@ -5,12 +5,16 @@ import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.apache.http.HttpStatus;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import pojo.OrderCreate;
 
 import java.io.File;
 
 import static constants.Urls.*;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class OrderSteps {
 
@@ -37,6 +41,14 @@ public class OrderSteps {
                     .body(json)
                     .when()
                     .post(ORDER_POST_CREATE);
+  }
+
+  @Step("Проверка тела ответа при создании заказа с \"track\"")
+  public void checkOrderTrackNotNullNew(Response response) {
+    response.then()
+            .statusCode(HttpStatus.SC_CREATED)
+            .and()
+            .assertThat().body("track", notNullValue());
   }
 
 }

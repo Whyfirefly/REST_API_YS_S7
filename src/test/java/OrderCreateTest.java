@@ -1,8 +1,6 @@
 import io.qameta.allure.Description;
-import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
 import pojo.OrderCreate;
 import steps.OrderSteps;
 import org.junit.Test;
@@ -33,14 +31,6 @@ public class OrderCreateTest {
     };
   }
 
-  @Step("Проверка тела ответа при создании заказа с \"track\"")
-  public void checkOrderTrackNotNullNew(Response response) {
-    response.then()
-            .statusCode(HttpStatus.SC_CREATED)
-            .and()
-            .assertThat().body("track", notNullValue());
-  }
-
   @Test
   @DisplayName("Успешное создание заказа")
   @Description(value = "Проверка, что заказ создаётся с различными вариациями цвета самоката")
@@ -48,7 +38,7 @@ public class OrderCreateTest {
     OrderSteps orderStep = new OrderSteps();
     OrderCreate order = new OrderCreate("Виктор", "Пяточкин", "Воронеж", "8", "+79244568270", 3, "2024-11-29", "Пожалуйста, осторожнее.", colour);
     Response createOrderResponse = orderStep.createOrderWithLine(order);
-    checkOrderTrackNotNullNew(createOrderResponse);
+    orderStep.checkOrderTrackNotNullNew(createOrderResponse);
     System.out.println(createOrderResponse.asString());
   }
 
