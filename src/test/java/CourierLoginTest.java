@@ -16,12 +16,12 @@ public class CourierLoginTest {
   @Before
   public void setUp() {
     courierSteps = new CourierSteps();
-    courierSteps.createCourier(RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierSteps.createCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
   }
 
   @After
   public void afterTestDelete() {
-    Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, RANDOM_PASS);
+    Response responseDelete = courierSteps.deleteCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS);
     courierSteps.checkAnswerThenValidDeleting(responseDelete);
   }
 
@@ -29,7 +29,7 @@ public class CourierLoginTest {
   @DisplayName("Успешная авторизация курьера")
   @Description("Проверка, что при успешной регистрации курьера возвращается id курьера")
   public void loginCourierSuccess() {
-    Response loginResponse = courierSteps.loginCourier(RANDOM_LOGIN, RANDOM_PASS);
+    Response loginResponse = courierSteps.loginCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS);
     courierSteps.checkAnswerAndPresenceId(loginResponse);
   }
 
@@ -39,16 +39,14 @@ public class CourierLoginTest {
   public void loginCourierWithIncorrectLoginFailed() {
     Response wrongLoginResponse = courierSteps.loginCourier("Ohhhh", RANDOM_PASS);
     courierSteps.checkAnswerWithWrongData(wrongLoginResponse);
-    System.out.println(wrongLoginResponse.asString());
-  }
+      }
 
   @Test
   @DisplayName("Неуспешная авторизация с неподходящим паролем курьера")
   @Description("Создание нового курьера,попытка авторизации с неправильным паролем и проверка неуспеха авторизации, код статуса ответа = 404")
   public void loginCourierWithIncorrectPassFailed() {
-    Response wrongPassResponse = courierSteps.loginCourier(RANDOM_LOGIN, "9876");
+    Response wrongPassResponse = courierSteps.loginCourier("Maks" + RANDOM_LOGIN, "9876");
     courierSteps.checkAnswerWithWrongData(wrongPassResponse);
-    System.out.println(wrongPassResponse.asString());
   }
 
 
@@ -58,16 +56,14 @@ public class CourierLoginTest {
   public void loginCourierWithoutLoginFailed() {
     Response withoutLoginResponse = courierSteps.loginCourier("", RANDOM_PASS);
     courierSteps.checkAnswerWithoutData(withoutLoginResponse);
-    System.out.println(withoutLoginResponse.asString());
   }
 
   @Test
   @DisplayName("Неуспешная авторизация без указания пароля")
   @Description("Создание нового курьера, попытка авторизации без пароля и проверка неуспеха авторизации, код статуса ответа = 400")
   public void loginCourierWithoutPassFailed() {
-    Response withoutPassResponse = courierSteps.loginCourier(RANDOM_LOGIN, "");
+    Response withoutPassResponse = courierSteps.loginCourier("Maks" + RANDOM_LOGIN, "");
     courierSteps.checkAnswerWithoutData(withoutPassResponse);
-    System.out.println(withoutPassResponse.asString());
 
   }
 

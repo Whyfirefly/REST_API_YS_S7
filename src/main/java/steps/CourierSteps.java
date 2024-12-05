@@ -1,10 +1,7 @@
 package steps;
 
-import constants.Urls;
 import io.qameta.allure.Step;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
 import pojo.CreateCourier;
@@ -16,21 +13,15 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class CourierSteps {
+public class CourierSteps extends RestApi {
 
-  //Base uri присваиваем через request specification в RestAssured
-  public static RequestSpecification requestSpecification() {
-    return given().log().all()
-            .contentType(ContentType.JSON)
-            .baseUri(Urls.BASE_URL);
-  }
 
   @Step("Создание курьера")
-
   public Response createCourier(String login, String pass, String name) {
     CreateCourier courier = new CreateCourier(login, pass, name);
-    return requestSpecification()
-            .log().all()
+    return given()
+            .spec(requestSpecification())
+            .and()
             .body(courier)
             .when()
             .post(COURIER_POST_CREATE);
@@ -39,8 +30,9 @@ public class CourierSteps {
   @Step("Логин курьера в системе")
   public Response loginCourier(String login, String pass) {
     LoginCourier loginCourier = new LoginCourier(login, pass);
-    return requestSpecification()
-            .log().all()
+    return given()
+            .spec(requestSpecification())
+            .and()
             .body(loginCourier)
             .when()
             .post(COURIER_POST_LOGIN);
@@ -56,16 +48,16 @@ public class CourierSteps {
   @Step("Удаление курьера")
   public Response deleteCourier(String login, String pass) {
 
-    return requestSpecification()
-            .log().all()
+    return given()
+            .spec(requestSpecification())
             .when()
             .delete(COURIER_DELETE+(getCourierId(login, pass)));
   }
 
   @Step("Получение рандомного несуществующего id курьера")
   public Response setRandomCourierId(String id) {
-    return requestSpecification()
-            .log().all()
+    return given()
+            .spec(requestSpecification())
             .when()
             .post(COURIER_DELETE + RANDOM_COURIER_ID);
   }
@@ -84,7 +76,8 @@ public class CourierSteps {
     response
             .then()
             .statusCode(HttpStatus.SC_CREATED)
-            .and().assertThat().body("ok", CoreMatchers.equalTo(true));
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true))
+            .log().all();
   }
 
   @Step("Проверка тела ответа при попытке повторной регистрации под уже существующим логином - 409 Сonflict")
@@ -106,7 +99,8 @@ public class CourierSteps {
     response
             .then()
             .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-            .and().assertThat().body("message", equalTo("invalid input syntax for type integer: \"null\""));
+            .and().assertThat().body("message", equalTo("invalid input syntax for type integer: \"null\""))
+            .log().all();
   }
 
   @Step("Проверка тела ответа и статус кода сервера на удаление курьера c несуществующим id - 404 Not Found")

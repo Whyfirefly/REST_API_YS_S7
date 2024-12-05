@@ -3,6 +3,7 @@ package pojo;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 public class CreateCourier {
@@ -10,6 +11,8 @@ public class CreateCourier {
   private String login;
   private String password;
   private String firstName;
+  @Setter
+  @Getter
   private Integer id;
 
 
@@ -21,11 +24,4 @@ public class CreateCourier {
 
   public CreateCourier() {}
 
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 }

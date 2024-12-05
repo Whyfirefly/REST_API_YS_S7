@@ -21,9 +21,8 @@ public class CourierDeleteTest {
   @Description("Проверка неуспешного удаления курьера без id")
   public void deleteCourierNegativeWithoutPass() {
 
-    Response responseDelete = courierSteps.deleteCourier(RANDOM_LOGIN, " ");
-    courierSteps.checkAnswerThenInValidDeletingWithoutId(responseDelete);
-    System.out.println(responseDelete.asString());
+    Response responseDeleteWithoutPass = courierSteps.deleteCourier(RANDOM_LOGIN, " ");
+    courierSteps.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutPass);
   }
 
   @Test
@@ -31,9 +30,8 @@ public class CourierDeleteTest {
   @Description("Проверка неуспешного удаления курьера без id")
   public void deleteCourierNegativeWithoutLogin() {
 
-    Response responseDelete = courierSteps.deleteCourier(" ", RANDOM_PASS);
-    courierSteps.checkAnswerThenInValidDeletingWithoutId(responseDelete);
-    System.out.println(responseDelete.asString());
+    Response responseDeleteWithoutLogin = courierSteps.deleteCourier(" ", RANDOM_PASS);
+    courierSteps.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutLogin);
   }
 
   @Test
@@ -41,8 +39,7 @@ public class CourierDeleteTest {
   @Description("Проверка неуспешного удаления курьера c несуществующим id")
   public void deleteCourierNegativeWithUnrealId() {
 
-    Response responseDelete = courierSteps.setRandomCourierId(RANDOM_COURIER_ID);
-    courierSteps.checkAnswerThenInValidDeletingWithUnrealId(responseDelete);
-    System.out.println(responseDelete);
+    Response responseDeleteWithInvalidCourierId = courierSteps.setRandomCourierId(RANDOM_COURIER_ID);
+    courierSteps.checkAnswerThenInValidDeletingWithUnrealId(responseDeleteWithInvalidCourierId);
   }
 }

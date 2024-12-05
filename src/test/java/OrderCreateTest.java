@@ -9,8 +9,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.notNullValue;
-
 @RunWith(Parameterized.class)
 public class OrderCreateTest {
 
@@ -39,7 +37,6 @@ public class OrderCreateTest {
     OrderCreate order = new OrderCreate("Виктор", "Пяточкин", "Воронеж", "8", "+79244568270", 3, "2024-11-29", "Пожалуйста, осторожнее.", colour);
     Response createOrderResponse = orderStep.createOrderWithLine(order);
     orderStep.checkOrderTrackNotNullNew(createOrderResponse);
-    System.out.println(createOrderResponse.asString());
   }
 
 }
