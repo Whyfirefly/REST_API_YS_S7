@@ -12,19 +12,17 @@ import static io.restassured.RestAssured.given;
 public class CourierStepsApi extends RestApi {
 
   @Step("Создание курьера")
-  public Response createCourier(String login, String pass, String name) {
-    CreateCourier courier = new CreateCourier(login, pass, name);
+  public Response createCourier(CreateCourier createCourier) {
     return given()
             .spec(requestSpecification())
             .and()
-            .body(courier)
+            .body(createCourier)
             .when()
             .post(COURIER_POST_CREATE);
   }
 
   @Step("Логин курьера в системе")
-  public Response loginCourier(String login, String pass) {
-    LoginCourier loginCourier = new LoginCourier(login, pass);
+  public Response loginCourier(LoginCourier loginCourier) {
     return given()
             .spec(requestSpecification())
             .and()
@@ -34,19 +32,19 @@ public class CourierStepsApi extends RestApi {
   }
 
   @Step("Получение id курьера")
-  public Integer getCourierId(String login, String pass) {
-    return loginCourier(login, pass)
+  public Integer getCourierId(LoginCourier loginCourier) {
+    return loginCourier(loginCourier)
             .body()
             .as(CreateCourier.class).getId();
   }
 
   @Step("Удаление курьера")
-  public Response deleteCourier(String login, String pass) {
+  public Response deleteCourier(LoginCourier loginCourier) {
 
     return given()
             .spec(requestSpecification())
             .when()
-            .delete(COURIER_DELETE + (getCourierId(login, pass)));
+            .delete(COURIER_DELETE + (getCourierId(loginCourier)));
   }
 
   @Step("Получение рандомного несуществующего id курьера")

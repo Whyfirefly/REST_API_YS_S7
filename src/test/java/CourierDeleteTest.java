@@ -7,6 +7,7 @@ import steps.CourierStepsApi;
 import steps.CourierStepsChecks;
 
 import static random_data.RandomData.*;
+import static steps.LoginCourierWithData.loginCourierWithData;
 
 public class CourierDeleteTest {
   CourierStepsApi courierStepsApi;
@@ -19,20 +20,20 @@ public class CourierDeleteTest {
   }
 
   @Test
-  @DisplayName("Удаление курьера без id")
-  @Description("Проверка неуспешного удаления курьера без id")
+  @DisplayName("Удаление курьера без пароля")
+  @Description("Проверка неуспешного удаления курьера без ввода пароля")
   public void deleteCourierNegativeWithoutPass() {
 
-    Response responseDeleteWithoutPass = courierStepsApi.deleteCourier(RANDOM_LOGIN, " ");
+    Response responseDeleteWithoutPass = courierStepsApi.deleteCourier(loginCourierWithData(RANDOM_LOGIN, ""));
     courierStepsChecks.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutPass);
   }
 
   @Test
-  @DisplayName("Удаление курьера без id")
-  @Description("Проверка неуспешного удаления курьера без id")
+  @DisplayName("Удаление курьера без логина")
+  @Description("Проверка неуспешного удаления курьера без логина")
   public void deleteCourierNegativeWithoutLogin() {
 
-    Response responseDeleteWithoutLogin = courierStepsApi.deleteCourier(" ", RANDOM_PASS);
+    Response responseDeleteWithoutLogin = courierStepsApi.deleteCourier(loginCourierWithData("", RANDOM_PASS));
     courierStepsChecks.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutLogin);
   }
 
