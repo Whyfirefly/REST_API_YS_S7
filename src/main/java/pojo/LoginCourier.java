@@ -1,9 +1,11 @@
 package pojo;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class LoginCourier {
 
   private String login;
@@ -14,6 +16,4 @@ public class LoginCourier {
     this.password = password;
   }
 
-  public LoginCourier() {}
-
-}
+  }
