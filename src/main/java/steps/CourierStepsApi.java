@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import pojo.CreateCourier;
 import pojo.LoginCourier;
+
 import static random_data.RandomData.RANDOM_COURIER_ID;
 import static constants.Urls.*;
 import static io.restassured.RestAssured.given;
@@ -45,7 +46,7 @@ public class CourierStepsApi extends RestApi {
     return given()
             .spec(requestSpecification())
             .when()
-            .delete(COURIER_DELETE+(getCourierId(login, pass)));
+            .delete(COURIER_DELETE + (getCourierId(login, pass)));
   }
 
   @Step("Получение рандомного несуществующего id курьера")

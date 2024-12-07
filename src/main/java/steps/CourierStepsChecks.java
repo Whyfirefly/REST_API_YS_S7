@@ -4,6 +4,8 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
+
+import static constants.AnswersWhenChecksFailed.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -31,14 +33,14 @@ public class CourierStepsChecks extends RestApi {
   public void checkAnswerReuseRegistrationData(Response response) {
     response.then()
             .statusCode(HttpStatus.SC_CONFLICT)
-            .and().assertThat().body("message", equalTo("Этот логин уже используется."));
+            .and().assertThat().body("message", equalTo(ANSWER_REUSE_REGISTRATION_DATA));
   }
 
   @Step("Проверка тела ответа и статус кода сервера при неполных данных при регистрации - 400 Bad Request")
   public void checkAnswerWithNotEnoughRegData(Response response) {
     response.then()
             .statusCode(HttpStatus.SC_BAD_REQUEST)
-            .and().assertThat().body("message", CoreMatchers.equalTo("Недостаточно данных для создания учетной записи"));
+            .and().assertThat().body("message", CoreMatchers.equalTo(ANSWER_WITH_NOT_ENOUGH_REG_DATA));
   }
 
   @Step("Проверка тела ответа и статус кода сервера на удаление курьера c id = null - 500")
@@ -46,7 +48,7 @@ public class CourierStepsChecks extends RestApi {
     response
             .then()
             .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-            .and().assertThat().body("message", equalTo("invalid input syntax for type integer: \"null\""))
+            .and().assertThat().body("message", equalTo(ANSWER_WHEN_COURIER_ID_IS_NULL))
             .log().all();
   }
 
@@ -55,7 +57,7 @@ public class CourierStepsChecks extends RestApi {
     response
             .then()
             .statusCode(HttpStatus.SC_NOT_FOUND)
-            .and().assertThat().body("message", equalTo("Not Found."));
+            .and().assertThat().body("message", equalTo(ANSWER_WHEN_COURIER_OR_ORDER_ID_IS_INVALID));
   }
 
   @Step("Проверка наличия id курьера по его логину и паролю - статус код 200")
@@ -69,14 +71,14 @@ public class CourierStepsChecks extends RestApi {
   public void checkAnswerWithWrongData(Response response) {
     response.then()
             .statusCode(HttpStatus.SC_NOT_FOUND)
-            .assertThat().body("message", CoreMatchers.equalTo("Учетная запись не найдена"));
+            .assertThat().body("message", CoreMatchers.equalTo(ANSWER_WITH_WRONG_LOGIN_AND_PASS));
   }
 
   @Step("Проверка ошибки системы при попытке входа без логина или пароля, статус-код 400 Bad Request ")
   public void checkAnswerWithoutData(Response response) {
     response.then()
             .statusCode(HttpStatus.SC_BAD_REQUEST)
-            .assertThat().body("message", CoreMatchers.equalTo("Недостаточно данных для входа"));
+            .assertThat().body("message", CoreMatchers.equalTo(ANSWER_WITHOUT_LOGIN_OR_PASS));
   }
 
 

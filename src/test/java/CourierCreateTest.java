@@ -15,7 +15,7 @@ public class CourierCreateTest {
 
   @Before
   public void setUp() {
-        courierStepsApi = new CourierStepsApi();
+    courierStepsApi = new CourierStepsApi();
     courierStepsChecks = new CourierStepsChecks();
   }
 

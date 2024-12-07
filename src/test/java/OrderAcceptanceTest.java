@@ -34,8 +34,8 @@ public class OrderAcceptanceTest {
     Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     courierStepsChecks.checkAnswerValidRegistration(responseCreate);
 
-    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
-    System.out.println("Courier's id is "+ courierID);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    System.out.println("Courier's id is " + courierID);
 
     //создаём заказ, получаем его id в системе
     //Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов
@@ -61,7 +61,7 @@ public class OrderAcceptanceTest {
     System.out.println("New order's id is " + orderId);
 
     //Попытка принятия заказа по существующим id заказа и курьера
-    orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID,orderId);
+    orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID, orderId);
 
     //Удаление курьера
     Response responseDelete = courierStepsApi.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
@@ -76,8 +76,8 @@ public class OrderAcceptanceTest {
     Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     courierStepsChecks.checkAnswerValidRegistration(responseCreate);
     System.out.println(responseCreate.asString());
-    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
-    System.out.println("Courier's id is "+ courierID);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    System.out.println("Courier's id is " + courierID);
 
     //создаём заказ, получаем его id в системе
     //Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов
@@ -103,10 +103,10 @@ public class OrderAcceptanceTest {
     System.out.println("New order's id is " + orderId);
 
     //Попытка принятия заказа по существующим id заказа и курьера
-    orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID,orderId);
+    orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID, orderId);
 
     //Попытка повторного принятия заказа по тем же id заказа и курьера
-    orderStep.checkRepeatAcceptanceOrder(courierID,orderId);
+    orderStep.checkRepeatAcceptanceOrder(courierID, orderId);
 
     //Удаление курьера
     Response responseDelete = courierStepsApi.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
@@ -121,8 +121,8 @@ public class OrderAcceptanceTest {
     Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     courierStepsChecks.checkAnswerValidRegistration(responseCreate);
     System.out.println(responseCreate.asString());
-    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
-    System.out.println("Courier's id is "+ courierID);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    System.out.println("Courier's id is " + courierID);
 
     //Нет id заказа
     OrderSteps orderStep = new OrderSteps();
@@ -173,8 +173,8 @@ public class OrderAcceptanceTest {
     Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
     courierStepsChecks.checkAnswerValidRegistration(responseCreate);
     System.out.println(responseCreate.asString());
-    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
-    System.out.println("Courier's id is "+ courierID);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    System.out.println("Courier's id is " + courierID);
 
     //Проверка запроса с несуществующим номером заказа
     OrderSteps orderStep = new OrderSteps();
@@ -216,5 +216,5 @@ public class OrderAcceptanceTest {
     //Запрос с несуществующим id курьера
     orderStep.checkAcceptanceOrderWithInvalidCourierId(orderId);
   }
-  }
+}
 

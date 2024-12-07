@@ -10,7 +10,6 @@ import steps.CourierStepsChecks;
 import static random_data.RandomData.*;
 
 
-
 public class CourierLoginTest {
   CourierStepsApi courierStepsApi;
   CourierStepsChecks courierStepsChecks;
@@ -42,7 +41,7 @@ public class CourierLoginTest {
   public void loginCourierWithIncorrectLoginFailed() {
     Response wrongLoginResponse = courierStepsApi.loginCourier("Ohhhh", RANDOM_PASS);
     courierStepsChecks.checkAnswerWithWrongData(wrongLoginResponse);
-      }
+  }
 
   @Test
   @DisplayName("Неуспешная авторизация с неподходящим паролем курьера")
