@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class OrderCreatedMain {
-//поле типа OrderFieldsGetByTrackNumber
+  //поле типа OrderFieldsGetByTrackNumber
   private OrderFieldsGetByTrackNumber order;
 
   //конструктор с параметрами

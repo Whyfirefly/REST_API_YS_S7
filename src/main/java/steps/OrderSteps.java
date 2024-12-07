@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
 import pojo.OrderCreate;
+import pojo.OrderCreatedMain;
 
 import java.io.File;
 
@@ -59,11 +60,22 @@ public class OrderSteps extends RestApi {
             .log().all();
   }
 
+
+  @Step("Получаем id заказа по треккинговому номеру")
+  public Integer getOrderId(int trackNumber) {
+    return given()
+            .spec(requestSpecification())
+            .queryParam("t", trackNumber)
+            .get(ORDER_GET_BY_NUMBER)
+            //десериализуем JSON
+            .body().as(OrderCreatedMain.class).getOrder().getId();
+  }
+
   @Step("Проверка наличия заказа при его поиске по треккинговому номеру - статус 200 ОК")
-  public void checkGetListOrderByValidTrackNumber(int TrackNumber) {
+  public void checkGetListOrderByValidTrackNumber(int trackNumber) {
     given()
             .spec(requestSpecification())
-            .queryParam("t", TrackNumber)
+            .queryParam("t", trackNumber)
             .get(ORDER_GET_BY_NUMBER)
             .then()
             .statusCode(HttpStatus.SC_OK)

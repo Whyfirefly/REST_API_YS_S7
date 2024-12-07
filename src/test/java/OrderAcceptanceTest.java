@@ -1,19 +1,15 @@
-import constants.Urls;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import pojo.OrderCreatedMain;
 import steps.CourierStepsApi;
 import steps.CourierStepsChecks;
 import steps.OrderSteps;
 
 import static random_data.CourierGeneratorData.getRandomCourier;
 import static random_data.RandomData.*;
-import static constants.Urls.ORDER_GET_BY_NUMBER;
-import static io.restassured.RestAssured.given;
 import static steps.LoginCourierWithData.loginCourierWithData;
 
 
@@ -63,13 +59,7 @@ public class OrderAcceptanceTest {
     System.out.println("New order number track is " + trackNumber);
 
     //Получаем номер id заказа по треккинговому номеру
-    OrderCreatedMain orderCreatedMain = given().log().all()
-            .baseUri(Urls.BASE_URL)
-            .queryParam("t", trackNumber)
-            .get(ORDER_GET_BY_NUMBER)
-            //десериализуем JSON
-            .body().as(OrderCreatedMain.class);
-    int orderId = orderCreatedMain.getOrder().getId();
+    int orderId = orderStep.getOrderId(trackNumber);
     System.out.println("New order's id is " + orderId);
 
     //Попытка принятия заказа по существующим id заказа и курьера
@@ -102,13 +92,7 @@ public class OrderAcceptanceTest {
     System.out.println("New order number track is " + trackNumber);
 
     //Получаем номер id заказа по треккинговому номеру
-    OrderCreatedMain orderCreatedMain = given().log().all()
-            .baseUri(Urls.BASE_URL)
-            .queryParam("t", trackNumber)
-            .get(ORDER_GET_BY_NUMBER)
-            //десериализуем JSON
-            .body().as(OrderCreatedMain.class);
-    int orderId = orderCreatedMain.getOrder().getId();
+    int orderId = orderStep.getOrderId(trackNumber);
     System.out.println("New order's id is " + orderId);
 
     //Попытка принятия заказа по существующим id заказа и курьера
@@ -154,13 +138,7 @@ public class OrderAcceptanceTest {
     System.out.println("New order number track is " + trackNumber);
 
     //Получаем номер id заказа по треккинговому номеру
-    OrderCreatedMain orderCreatedMain = given().log().all()
-            .baseUri(Urls.BASE_URL)
-            .queryParam("t", trackNumber)
-            .get(ORDER_GET_BY_NUMBER)
-            //десериализуем JSON
-            .body().as(OrderCreatedMain.class);
-    int orderId = orderCreatedMain.getOrder().getId();
+    int orderId = orderStep.getOrderId(trackNumber);
     System.out.println("New order's id is " + orderId);
 
     //Проверка принятия заказа без id курьера
@@ -204,13 +182,7 @@ public class OrderAcceptanceTest {
     System.out.println("New order number track is " + trackNumber);
 
     //Получаем номер id заказа по треккинговому номеру
-    OrderCreatedMain orderCreatedMain = given().log().all()
-            .baseUri(Urls.BASE_URL)
-            .queryParam("t", trackNumber)
-            .get(ORDER_GET_BY_NUMBER)
-            //десериализуем JSON
-            .body().as(OrderCreatedMain.class);
-    int orderId = orderCreatedMain.getOrder().getId();
+    int orderId = orderStep.getOrderId(trackNumber);
     System.out.println("New order's id is " + orderId);
 
     //Запрос с несуществующим id курьера
