@@ -36,7 +36,7 @@ public class CourierCreateTest {
   @DisplayName("Создание нового курьера")
   @Description("Создание нового курьера с корректными данными и проверка того, что он создался - получен код 201")
   public void creatingCourierPositive() {
-    CreateCourier createCourier = getRandomCourier("Jora", "pass", "Matvei");
+    CreateCourier createCourier = getRandomCourier("Jora", "pass", "Jora");
     Response responseCreate = courierStepsApi.createCourier(createCourier);
     courierStepsChecks.checkAnswerValidRegistration(responseCreate);
 

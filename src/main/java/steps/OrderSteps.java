@@ -71,6 +71,16 @@ public class OrderSteps extends RestApi {
             .body().as(OrderCreatedMain.class).getOrder().getId();
   }
 
+  @Step("Получаем track заказа по треккинговому номеру для его отмены")
+  public String getOrderTrack (int trackNumber) {
+    return given()
+            .spec(requestSpecification())
+            .queryParam("t", trackNumber)
+            .get(ORDER_GET_BY_NUMBER)
+            //десериализуем JSON
+            .body().as(OrderCreatedMain.class).getOrder().getTrack();
+  }
+
   @Step("Проверка наличия заказа при его поиске по треккинговому номеру - статус 200 ОК")
   public void checkGetListOrderByValidTrackNumber(int trackNumber) {
     given()
@@ -179,6 +189,29 @@ public class OrderSteps extends RestApi {
             .then()
             .statusCode(HttpStatus.SC_NOT_FOUND)
             .and().assertThat().body("message", equalTo(ANSWER_WHEN_ACCEPTANCE_ORDER_WITH_INVALID_COURIER_ID))
+            .log().all();
+  }
+
+  @Step("Проверка завершения заказа по существующему id - статус 200 ОК")
+  public void checkFinishOrderByValidOrderId(int orderId) {
+    given()
+            .spec(requestSpecification())
+            .put(ORDER_PUT_FINISH_ORDER + orderId)
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true))
+            .log().all();
+  }
+
+  @Step("Проверка отмены заказа по существующему трек-номеру - статус 200 ОК")
+  public void checkCancelOrderByValidTrackNumber(int trackNum) {
+    given()
+            .spec(requestSpecification())
+            .queryParam("track", getOrderTrack(trackNum))
+            .put(ORDER_PUT_CANCEL_ORDER)
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true))
             .log().all();
   }
 }

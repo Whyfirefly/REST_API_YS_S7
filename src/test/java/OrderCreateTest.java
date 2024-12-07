@@ -37,6 +37,15 @@ public class OrderCreateTest {
     OrderCreate order = new OrderCreate("Виктор", "Пяточкин", "Воронеж", "8", "+79244568270", 3, "2024-11-29", "Пожалуйста, осторожнее.", colour);
     Response createOrderResponse = orderStep.createOrderWithLine(order);
     orderStep.checkOrderTrackNotNullNew(createOrderResponse);
+
+    //Ответ API конвертируем в строку и из строки достаём значение по ключу track
+    String orderNumberTrack = createOrderResponse.path("track").toString();
+    //convert a String to an int in Java
+    int trackNumber = Integer.parseInt(orderNumberTrack);
+    System.out.println("New order number track is " + trackNumber);
+
+    //Отмена заказа
+    orderStep.checkCancelOrderByValidTrackNumber(trackNumber);
   }
 
 }

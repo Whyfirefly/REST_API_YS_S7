@@ -52,7 +52,7 @@ public class OrderAcceptanceTest {
     orderStep.checkOrderTrackNotNullNew(createOrderResponse);
 
     //Response class has method path() using that, user can give the json path to get the particular value.
-    //То есть я ответ API конвертирую в строку и из строки достаю значение по нужному мне ключу
+    //Ответ API конвертируем в строку и из строки достаём значение по ключу track
     String orderNumberTrack = createOrderResponse.path("track").toString();
     //convert a String to an int in Java
     int trackNumber = Integer.parseInt(orderNumberTrack);
@@ -64,6 +64,9 @@ public class OrderAcceptanceTest {
 
     //Попытка принятия заказа по существующим id заказа и курьера
     orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID, orderId);
+
+    //Завершение заказа
+    orderStep.checkFinishOrderByValidOrderId(orderId);
 
   }
 
@@ -85,7 +88,7 @@ public class OrderAcceptanceTest {
     orderStep.checkOrderTrackNotNullNew(createOrderResponse);
     System.out.println("Response of API track is " + createOrderResponse.asString());
     //Response class has method path() using that, user can give the json path to get the particular value.
-    //То есть я ответ API конвертирую в строку и из строки достаю значение нужного мне ключа
+    //Ответ API конвертируем в строку и из строки достаём значение по ключу track
     String orderNumberTrack = createOrderResponse.path("track").toString();
     //convert a String to an int in Java
     int trackNumber = Integer.parseInt(orderNumberTrack);
@@ -101,6 +104,8 @@ public class OrderAcceptanceTest {
     //Попытка повторного принятия заказа по тем же id заказа и курьера
     orderStep.checkRepeatAcceptanceOrder(courierID, orderId);
 
+    //Завершение заказа
+    orderStep.checkFinishOrderByValidOrderId(orderId);
   }
 
   @Test
@@ -131,7 +136,7 @@ public class OrderAcceptanceTest {
     orderStep.checkOrderTrackNotNullNew(createOrderResponse);
     System.out.println("Response of API track is " + createOrderResponse.asString());
     //Response class has method path() using that, user can give the json path to get the particular value.
-    //То есть я ответ API конвертирую в строку и из строки достаю значение нужного мне ключа
+    //Ответ API конвертируем в строку и из строки достаём значение по ключу track
     String orderNumberTrack = createOrderResponse.path("track").toString();
     //convert a String to an int in Java
     int trackNumber = Integer.parseInt(orderNumberTrack);
@@ -175,7 +180,7 @@ public class OrderAcceptanceTest {
     orderStep.checkOrderTrackNotNullNew(createOrderResponse);
     System.out.println("Response of API track is " + createOrderResponse.asString());
     //Response class has method path() using that, user can give the json path to get the particular value.
-    //То есть я ответ API конвертирую в строку и из строки достаю значение нужного мне ключа
+    //Ответ API конвертируем в строку и из строки достаём значение по ключу track
     String orderNumberTrack = createOrderResponse.path("track").toString();
     //convert a String to an int in Java
     int trackNumber = Integer.parseInt(orderNumberTrack);
@@ -187,6 +192,7 @@ public class OrderAcceptanceTest {
 
     //Запрос с несуществующим id курьера
     orderStep.checkAcceptanceOrderWithInvalidCourierId(orderId);
+
   }
 }
 

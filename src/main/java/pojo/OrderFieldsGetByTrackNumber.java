@@ -19,7 +19,7 @@ public class OrderFieldsGetByTrackNumber {
   private String phone;
   private int rentTime;
   private String deliveryDate;
-  private int track;
+  private String track;
   private int status;
   private List<String> colour;
   private String comment;
@@ -30,7 +30,7 @@ public class OrderFieldsGetByTrackNumber {
   private String createdAt;
   private String updatedAt;
 
-  public OrderFieldsGetByTrackNumber(int id, String firstName, String lastName, String address, String metroStation, String phone, int rentTime, String deliveryDate, int track, int status, List<String> colour, String comment, boolean cancelled, boolean finished, boolean inDelivery, String courierFirstName, String createdAt, String updatedAt) {
+  public OrderFieldsGetByTrackNumber(int id, String firstName, String lastName, String address, String metroStation, String phone, int rentTime, String deliveryDate, String track, int status, List<String> colour, String comment, boolean cancelled, boolean finished, boolean inDelivery, String courierFirstName, String createdAt, String updatedAt) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
