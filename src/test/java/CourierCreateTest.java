@@ -3,41 +3,44 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
-import steps.CourierSteps;
+import steps.CourierStepsApi;
+import steps.CourierStepsChecks;
 
 import static random_data.RandomData.*;
 
 public class CourierCreateTest {
 
-  CourierSteps courierSteps;
+  CourierStepsApi courierStepsApi;
+  CourierStepsChecks courierStepsChecks;
 
   @Before
   public void setUp() {
-        courierSteps = new CourierSteps();
+        courierStepsApi = new CourierStepsApi();
+    courierStepsChecks = new CourierStepsChecks();
   }
 
   @Test
   @DisplayName("Создание нового курьера")
   @Description("Создание нового курьера с корректными данными и проверка того, что он создался - получен код 201")
   public void creatingCourierPositive() {
-    Response responseCreate = courierSteps.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
-    courierSteps.checkAnswerValidRegistration(responseCreate);
+    Response responseCreate = courierStepsApi.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks.checkAnswerValidRegistration(responseCreate);
 
-    Response responseDelete = courierSteps.deleteCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
+    Response responseDelete = courierStepsApi.deleteCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
   @Test
   @DisplayName("Повторное создание существующего курьера")
   @Description("Проверка ответа api (статус кода и тела) при попытке создания идентичного курьера существующему")
   public void creatingIdenticalCouriersConflict() {
-    courierSteps.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsApi.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
 
-    Response responseIdentical = courierSteps.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
-    courierSteps.checkAnswerReuseRegistrationData(responseIdentical);
+    Response responseIdentical = courierStepsApi.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks.checkAnswerReuseRegistrationData(responseIdentical);
 
-    Response responseDelete = courierSteps.deleteCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
+    Response responseDelete = courierStepsApi.deleteCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
 
@@ -45,8 +48,8 @@ public class CourierCreateTest {
   @DisplayName("Создание курьера без логина")
   @Description("Проверка тела ответа при создании курьера без логина")
   public void creatingCourierWithoutLoginBadRequest() {
-    Response responseWithoutLogin = courierSteps.createCourier("", RANDOM_PASS, RANDOM_NAME);
-    courierSteps.checkAnswerWithNotEnoughRegData(responseWithoutLogin);
+    Response responseWithoutLogin = courierStepsApi.createCourier("", RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks.checkAnswerWithNotEnoughRegData(responseWithoutLogin);
 
   }
 
@@ -54,8 +57,8 @@ public class CourierCreateTest {
   @DisplayName("Создание курьера без пароля")
   @Description("Проверка тела ответа при создании курьера без пароля")
   public void creatingCourierWithoutPasswordBadRequest() {
-    Response responseWithoutPass = courierSteps.createCourier("Matvei" + RANDOM_LOGIN, "", RANDOM_NAME);
-    courierSteps.checkAnswerWithNotEnoughRegData(responseWithoutPass);
+    Response responseWithoutPass = courierStepsApi.createCourier("Matvei" + RANDOM_LOGIN, "", RANDOM_NAME);
+    courierStepsChecks.checkAnswerWithNotEnoughRegData(responseWithoutPass);
 
   }
 
@@ -63,12 +66,11 @@ public class CourierCreateTest {
   @DisplayName("Создание курьера без указания имени")
   @Description("Проверка тела ответа при создании курьера без указания имени")
   public void creatingCourierWithoutNamePositive() {
-    Response responseWithoutName = courierSteps.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, "");
-    courierSteps.checkAnswerValidRegistration(responseWithoutName);
+    Response responseWithoutName = courierStepsApi.createCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS, "");
+    courierStepsChecks.checkAnswerValidRegistration(responseWithoutName);
 
-    Response responseDelete = courierSteps.deleteCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
-
+    Response responseDelete = courierStepsApi.deleteCourier("Matvei" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
 }

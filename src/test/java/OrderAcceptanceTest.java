@@ -5,7 +5,8 @@ import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import pojo.OrderCreatedMain;
-import steps.CourierSteps;
+import steps.CourierStepsApi;
+import steps.CourierStepsChecks;
 import steps.OrderSteps;
 
 import static random_data.RandomData.*;
@@ -14,13 +15,15 @@ import static io.restassured.RestAssured.given;
 
 
 public class OrderAcceptanceTest {
-  CourierSteps courierSteps;
+  CourierStepsApi courierStepsApi;
   OrderSteps orderSteps;
+  CourierStepsChecks courierStepsChecks;
 
   @Before
   public void setUp() {
-    courierSteps = new CourierSteps();
+    courierStepsApi = new CourierStepsApi();
     orderSteps = new OrderSteps();
+    courierStepsChecks = new CourierStepsChecks();
   }
 
   @Test
@@ -28,10 +31,10 @@ public class OrderAcceptanceTest {
   @Description("Проверка успешного принятия заказа - получен код 200")
   public void acceptanceOrderByValidOrderIdAndValidCourierId() {
     //создаем курьера, получаем его id в системе
-    Response responseCreate = courierSteps.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
-    courierSteps.checkAnswerValidRegistration(responseCreate);
+    Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks.checkAnswerValidRegistration(responseCreate);
 
-    int courierID = courierSteps.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
     System.out.println("Courier's id is "+ courierID);
 
     //создаём заказ, получаем его id в системе
@@ -61,8 +64,8 @@ public class OrderAcceptanceTest {
     orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID,orderId);
 
     //Удаление курьера
-    Response responseDelete = courierSteps.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
+    Response responseDelete = courierStepsApi.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
   @Test
@@ -70,10 +73,10 @@ public class OrderAcceptanceTest {
   @Description("При попытке повторного приема заказа ожидаем ошибку \"Этот заказ уже в работе\"")
   public void checkAcceptanceOrderAlreadyInWork() {
     //создаем курьера, получаем его id в системе
-    Response responseCreate = courierSteps.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
-    courierSteps.checkAnswerValidRegistration(responseCreate);
+    Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks.checkAnswerValidRegistration(responseCreate);
     System.out.println(responseCreate.asString());
-    int courierID = courierSteps.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
     System.out.println("Courier's id is "+ courierID);
 
     //создаём заказ, получаем его id в системе
@@ -106,8 +109,8 @@ public class OrderAcceptanceTest {
     orderStep.checkRepeatAcceptanceOrder(courierID,orderId);
 
     //Удаление курьера
-    Response responseDelete = courierSteps.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
+    Response responseDelete = courierStepsApi.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
   @Test
@@ -115,10 +118,10 @@ public class OrderAcceptanceTest {
   @Description("Попытка принять заказ без id заказа (код 400)")
   public void checkAcceptanceOrderWithoutOrderId() {
     //создаем курьера, получаем его id в системе
-    Response responseCreate = courierSteps.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
-    courierSteps.checkAnswerValidRegistration(responseCreate);
+    Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks.checkAnswerValidRegistration(responseCreate);
     System.out.println(responseCreate.asString());
-    int courierID = courierSteps.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
     System.out.println("Courier's id is "+ courierID);
 
     //Нет id заказа
@@ -126,8 +129,8 @@ public class OrderAcceptanceTest {
     orderStep.checkAcceptanceOrderWithoutOrderId(courierID);
 
     //Удаление курьера
-    Response responseDelete = courierSteps.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
+    Response responseDelete = courierStepsApi.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
   @Test
@@ -167,10 +170,10 @@ public class OrderAcceptanceTest {
   @Description("Попытка принять заказ c несуществующим номером id заказа (код 404)")
   public void checkAcceptanceOrderWithInvalidOrderId() {
     //создаем курьера, получаем его id в системе
-    Response responseCreate = courierSteps.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
-    courierSteps.checkAnswerValidRegistration(responseCreate);
+    Response responseCreate = courierStepsApi.createCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks.checkAnswerValidRegistration(responseCreate);
     System.out.println(responseCreate.asString());
-    int courierID = courierSteps.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
+    int courierID = courierStepsApi.getCourierId("Anna" + RANDOM_LOGIN,RANDOM_PASS);
     System.out.println("Courier's id is "+ courierID);
 
     //Проверка запроса с несуществующим номером заказа
@@ -178,8 +181,8 @@ public class OrderAcceptanceTest {
     orderStep.checkAcceptanceOrderWithInvalidOrderId(courierID);
 
     //Удаление курьера
-    Response responseDelete = courierSteps.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
+    Response responseDelete = courierStepsApi.deleteCourier("Anna" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
   @Test

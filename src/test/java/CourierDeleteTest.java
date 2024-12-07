@@ -3,26 +3,28 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
-import steps.CourierSteps;
+import steps.CourierStepsApi;
+import steps.CourierStepsChecks;
 
 import static random_data.RandomData.*;
 
 public class CourierDeleteTest {
-  CourierSteps courierSteps;
+  CourierStepsApi courierStepsApi;
+  CourierStepsChecks courierStepsChecks;
 
   @Before
   public void setUp() {
-    courierSteps = new CourierSteps();
+    courierStepsApi = new CourierStepsApi();
+    courierStepsChecks = new CourierStepsChecks();
   }
-
 
   @Test
   @DisplayName("Удаление курьера без id")
   @Description("Проверка неуспешного удаления курьера без id")
   public void deleteCourierNegativeWithoutPass() {
 
-    Response responseDeleteWithoutPass = courierSteps.deleteCourier(RANDOM_LOGIN, " ");
-    courierSteps.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutPass);
+    Response responseDeleteWithoutPass = courierStepsApi.deleteCourier(RANDOM_LOGIN, " ");
+    courierStepsChecks.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutPass);
   }
 
   @Test
@@ -30,8 +32,8 @@ public class CourierDeleteTest {
   @Description("Проверка неуспешного удаления курьера без id")
   public void deleteCourierNegativeWithoutLogin() {
 
-    Response responseDeleteWithoutLogin = courierSteps.deleteCourier(" ", RANDOM_PASS);
-    courierSteps.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutLogin);
+    Response responseDeleteWithoutLogin = courierStepsApi.deleteCourier(" ", RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenInValidDeletingWithoutId(responseDeleteWithoutLogin);
   }
 
   @Test
@@ -39,7 +41,7 @@ public class CourierDeleteTest {
   @Description("Проверка неуспешного удаления курьера c несуществующим id")
   public void deleteCourierNegativeWithUnrealId() {
 
-    Response responseDeleteWithInvalidCourierId = courierSteps.setRandomCourierId(RANDOM_COURIER_ID);
-    courierSteps.checkAnswerThenInValidDeletingWithUnrealId(responseDeleteWithInvalidCourierId);
+    Response responseDeleteWithInvalidCourierId = courierStepsApi.setRandomCourierId(RANDOM_COURIER_ID);
+    courierStepsChecks.checkAnswerThenInValidDeletingWithUnrealId(responseDeleteWithInvalidCourierId);
   }
 }

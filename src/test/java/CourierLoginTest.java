@@ -4,49 +4,52 @@ import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import steps.CourierSteps;
+import steps.CourierStepsApi;
+import steps.CourierStepsChecks;
 
 import static random_data.RandomData.*;
 
 
 
 public class CourierLoginTest {
-  CourierSteps courierSteps;
+  CourierStepsApi courierStepsApi;
+  CourierStepsChecks courierStepsChecks;
 
   @Before
   public void setUp() {
-    courierSteps = new CourierSteps();
-    courierSteps.createCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsApi = new CourierStepsApi();
+    courierStepsApi.createCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS, RANDOM_NAME);
+    courierStepsChecks = new CourierStepsChecks();
   }
 
   @After
   public void afterTestDelete() {
-    Response responseDelete = courierSteps.deleteCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerThenValidDeleting(responseDelete);
+    Response responseDelete = courierStepsApi.deleteCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerThenValidDeleting(responseDelete);
   }
 
   @Test
   @DisplayName("Успешная авторизация курьера")
   @Description("Проверка, что при успешной регистрации курьера возвращается id курьера")
   public void loginCourierSuccess() {
-    Response loginResponse = courierSteps.loginCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS);
-    courierSteps.checkAnswerAndPresenceId(loginResponse);
+    Response loginResponse = courierStepsApi.loginCourier("Maks" + RANDOM_LOGIN, RANDOM_PASS);
+    courierStepsChecks.checkAnswerAndPresenceId(loginResponse);
   }
 
   @Test
   @DisplayName("Неуспешная авторизация с неподходящим логином курьера")
   @Description("Создание нового курьера, попытка авторизации с несуществующим логином и проверка неуспеха авторизации, код статуса ответа = 404")
   public void loginCourierWithIncorrectLoginFailed() {
-    Response wrongLoginResponse = courierSteps.loginCourier("Ohhhh", RANDOM_PASS);
-    courierSteps.checkAnswerWithWrongData(wrongLoginResponse);
+    Response wrongLoginResponse = courierStepsApi.loginCourier("Ohhhh", RANDOM_PASS);
+    courierStepsChecks.checkAnswerWithWrongData(wrongLoginResponse);
       }
 
   @Test
   @DisplayName("Неуспешная авторизация с неподходящим паролем курьера")
   @Description("Создание нового курьера,попытка авторизации с неправильным паролем и проверка неуспеха авторизации, код статуса ответа = 404")
   public void loginCourierWithIncorrectPassFailed() {
-    Response wrongPassResponse = courierSteps.loginCourier("Maks" + RANDOM_LOGIN, "9876");
-    courierSteps.checkAnswerWithWrongData(wrongPassResponse);
+    Response wrongPassResponse = courierStepsApi.loginCourier("Maks" + RANDOM_LOGIN, "9876");
+    courierStepsChecks.checkAnswerWithWrongData(wrongPassResponse);
   }
 
 
@@ -54,16 +57,16 @@ public class CourierLoginTest {
   @DisplayName("Неуспешная авторизация без указания логина курьера")
   @Description("Создание нового курьера, попытка авторизации без логина и проверка неуспеха авторизации, код статуса ответа = 400")
   public void loginCourierWithoutLoginFailed() {
-    Response withoutLoginResponse = courierSteps.loginCourier("", RANDOM_PASS);
-    courierSteps.checkAnswerWithoutData(withoutLoginResponse);
+    Response withoutLoginResponse = courierStepsApi.loginCourier("", RANDOM_PASS);
+    courierStepsChecks.checkAnswerWithoutData(withoutLoginResponse);
   }
 
   @Test
   @DisplayName("Неуспешная авторизация без указания пароля")
   @Description("Создание нового курьера, попытка авторизации без пароля и проверка неуспеха авторизации, код статуса ответа = 400")
   public void loginCourierWithoutPassFailed() {
-    Response withoutPassResponse = courierSteps.loginCourier("Maks" + RANDOM_LOGIN, "");
-    courierSteps.checkAnswerWithoutData(withoutPassResponse);
+    Response withoutPassResponse = courierStepsApi.loginCourier("Maks" + RANDOM_LOGIN, "");
+    courierStepsChecks.checkAnswerWithoutData(withoutPassResponse);
 
   }
 
