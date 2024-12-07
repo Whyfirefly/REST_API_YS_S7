@@ -7,7 +7,7 @@ import org.hamcrest.CoreMatchers;
 import pojo.CreateCourier;
 import pojo.LoginCourier;
 
-import static constants.RandomData.RANDOM_COURIER_ID;
+import static random_data.RandomData.RANDOM_COURIER_ID;
 import static constants.Urls.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;

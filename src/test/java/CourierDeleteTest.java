@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import steps.CourierSteps;
 
-import static constants.RandomData.*;
+import static random_data.RandomData.*;
 
 public class CourierDeleteTest {
   CourierSteps courierSteps;

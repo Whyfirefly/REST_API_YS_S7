@@ -2,14 +2,13 @@ import constants.Urls;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pojo.OrderCreatedMain;
 import steps.CourierSteps;
 import steps.OrderSteps;
 
-import static constants.RandomData.*;
+import static random_data.RandomData.*;
 import static constants.Urls.ORDER_GET_BY_NUMBER;
 import static io.restassured.RestAssured.given;
 

@@ -1,13 +1,11 @@
-import groovyjarjarantlr4.v4.runtime.atn.SemanticContext;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import steps.CourierSteps;
 
-import static constants.RandomData.*;
+import static random_data.RandomData.*;
 
 public class CourierCreateTest {
 

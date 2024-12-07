@@ -5,11 +5,10 @@ import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
 import pojo.OrderCreate;
-import pojo.OrderCreatedMain;
 
 import java.io.File;
 
-import static constants.RandomData.*;
+import static random_data.RandomData.*;
 import static constants.Urls.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.not;
