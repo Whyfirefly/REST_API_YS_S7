@@ -56,8 +56,7 @@ public class OrderSteps extends RestApi {
             .then()
             .statusCode(HttpStatus.SC_OK)
             .and()
-            .assertThat().body("orders", is(not(empty())))
-            .log().all();
+            .assertThat().body("orders", is(not(empty())));
   }
 
 
@@ -90,8 +89,7 @@ public class OrderSteps extends RestApi {
             .then()
             .statusCode(HttpStatus.SC_OK)
             .and()
-            .assertThat().body("order", is(not(empty())))
-            .log().all();
+            .assertThat().body("order", is(not(empty())));
   }
 
   @Step("Проверка отсутствия заказа при его поиске по несуществующему треккинговому номеру - статус 404")
@@ -103,8 +101,7 @@ public class OrderSteps extends RestApi {
             .then()
             .statusCode(HttpStatus.SC_NOT_FOUND)
             .and()
-            .assertThat().body("message", equalTo(ANSWER_WHEN_GET_LIST_ORDER_BY_INVALID_TRACK_NUMBER))
-            .log().all();
+            .assertThat().body("message", equalTo(ANSWER_WHEN_GET_LIST_ORDER_BY_INVALID_TRACK_NUMBER));
   }
 
   @Step("Проверка получения заказа без треккингового номера - статус 400")
@@ -116,8 +113,7 @@ public class OrderSteps extends RestApi {
             .then()
             .statusCode(HttpStatus.SC_BAD_REQUEST)
             .and()
-            .assertThat().body("message", equalTo(ANSWER_WHEN_GET_LIST_ORDER_WITHOUT_TRACK_NUMBER_OR_COURIER_ID))
-            .log().all();
+            .assertThat().body("message", equalTo(ANSWER_WHEN_GET_LIST_ORDER_WITHOUT_TRACK_NUMBER_OR_COURIER_ID));
   }
 
   @Step("Проверка принятия заказа по существующим id заказа и курьера - статус 200 ОК")
@@ -128,8 +124,7 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
             .statusCode(HttpStatus.SC_OK)
-            .and().assertThat().body("ok", CoreMatchers.equalTo(true))
-            .log().all();
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true));
   }
 
   @Step("Проверка повторного принятия одного заказа - статус 409")
@@ -140,8 +135,7 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
             .statusCode(HttpStatus.SC_CONFLICT)
-            .and().assertThat().body("message", equalTo(ANSWER_WHEN_REPEAT_ACCEPTANCE_ORDER))
-            .log().all();
+            .and().assertThat().body("message", equalTo(ANSWER_WHEN_REPEAT_ACCEPTANCE_ORDER));
   }
 
   @Step("Проверка принятия заказа без id заказа - статус 404")
@@ -152,8 +146,7 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_ACCEPT_ORDER)
             .then()
             .statusCode(HttpStatus.SC_NOT_FOUND)
-            .and().assertThat().body("message", equalTo(ANSWER_WHEN_COURIER_OR_ORDER_ID_IS_INVALID))
-            .log().all();
+            .and().assertThat().body("message", equalTo(ANSWER_WHEN_COURIER_OR_ORDER_ID_IS_INVALID));
   }
 
   @Step("Проверка принятия заказа без id курьера - статус 400")
@@ -164,8 +157,7 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
             .statusCode(HttpStatus.SC_BAD_REQUEST)
-            .and().assertThat().body("message", equalTo(ANSWER_WHEN_GET_LIST_ORDER_WITHOUT_TRACK_NUMBER_OR_COURIER_ID))
-            .log().all();
+            .and().assertThat().body("message", equalTo(ANSWER_WHEN_GET_LIST_ORDER_WITHOUT_TRACK_NUMBER_OR_COURIER_ID));
   }
 
   @Step("Проверка принятия заказа с несуществующим id заказа - статус 404")
@@ -176,8 +168,7 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_ACCEPT_ORDER + RANDOM_ORDER_ID)
             .then()
             .statusCode(HttpStatus.SC_NOT_FOUND)
-            .and().assertThat().body("message", equalTo(ANSWER_WHEN_ACCEPTANCE_ORDER_WITH_INVALID_ORDER_ID))
-            .log().all();
+            .and().assertThat().body("message", equalTo(ANSWER_WHEN_ACCEPTANCE_ORDER_WITH_INVALID_ORDER_ID));
   }
 
   @Step("Проверка принятия заказа с несуществующим id курьера - статус 404")
@@ -188,8 +179,7 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_ACCEPT_ORDER + orderId)
             .then()
             .statusCode(HttpStatus.SC_NOT_FOUND)
-            .and().assertThat().body("message", equalTo(ANSWER_WHEN_ACCEPTANCE_ORDER_WITH_INVALID_COURIER_ID))
-            .log().all();
+            .and().assertThat().body("message", equalTo(ANSWER_WHEN_ACCEPTANCE_ORDER_WITH_INVALID_COURIER_ID));
   }
 
   @Step("Проверка завершения заказа по существующему id - статус 200 ОК")
@@ -199,8 +189,7 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_FINISH_ORDER + orderId)
             .then()
             .statusCode(HttpStatus.SC_OK)
-            .and().assertThat().body("ok", CoreMatchers.equalTo(true))
-            .log().all();
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true));
   }
 
   @Step("Проверка отмены заказа по существующему трек-номеру - статус 200 ОК")
@@ -211,7 +200,6 @@ public class OrderSteps extends RestApi {
             .put(ORDER_PUT_CANCEL_ORDER)
             .then()
             .statusCode(HttpStatus.SC_OK)
-            .and().assertThat().body("ok", CoreMatchers.equalTo(true))
-            .log().all();
+            .and().assertThat().body("ok", CoreMatchers.equalTo(true));
   }
 }
