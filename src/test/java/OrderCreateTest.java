@@ -2,10 +2,11 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import pojo.OrderCreate;
-import steps.OrderSteps;
+import steps.OrderStepsApi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import steps.OrderStepsChecks;
 
 import java.util.List;
 
@@ -33,10 +34,11 @@ public class OrderCreateTest {
   @DisplayName("Успешное создание заказа")
   @Description(value = "Проверка, что заказ создаётся с различными вариациями цвета самоката")
   public void creatingOrderSuccessWthParam() {
-    OrderSteps orderStep = new OrderSteps();
+    OrderStepsApi orderStep = new OrderStepsApi();
+    OrderStepsChecks orderStepsChecks = new OrderStepsChecks();
     OrderCreate order = new OrderCreate("Виктор", "Пяточкин", "Воронеж", "8", "+79244568270", 3, "2024-11-29", "Пожалуйста, осторожнее.", colour);
     Response createOrderResponse = orderStep.createOrderWithLine(order);
-    orderStep.checkOrderTrackNotNullNew(createOrderResponse);
+    orderStepsChecks.checkOrderTrackNotNullNew(createOrderResponse);
 
     //Ответ API конвертируем в строку и из строки достаём значение по ключу track
     String orderNumberTrack = createOrderResponse.path("track").toString();
@@ -45,7 +47,7 @@ public class OrderCreateTest {
     System.out.println("New order number track is " + trackNumber);
 
     //Отмена заказа
-    orderStep.checkCancelOrderByValidTrackNumber(trackNumber);
+    orderStepsChecks.checkCancelOrderByValidTrackNumber(trackNumber);
   }
 
 }

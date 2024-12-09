@@ -2,23 +2,26 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
-import steps.OrderSteps;
+import steps.OrderStepsApi;
+import steps.OrderStepsChecks;
 
 
 public class OrderGetListTest {
-  OrderSteps orderSteps;
+  OrderStepsApi orderStepsApi;
+  OrderStepsChecks orderStepsChecks;
 
   @Before
   public void setUp() {
-    orderSteps = new OrderSteps();
+    orderStepsApi = new OrderStepsApi();
+    orderStepsChecks = new OrderStepsChecks();
   }
 
   @Test
   @DisplayName("Получение списка заказов")
   @Description("Получение списка заказов, проверка наличия списка, что он не пустой")
   public void orderGetList() {
-    OrderSteps orderStep = new OrderSteps();
-    orderStep.checkGetListOrder();
+    OrderStepsApi orderStep = new OrderStepsApi();
+    orderStepsChecks.checkGetListOrder();
   }
 
 }

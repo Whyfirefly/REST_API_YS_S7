@@ -9,7 +9,7 @@ import static constants.AnswersWhenChecksFailed.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class CourierStepsChecks extends RestApi {
+public class CourierStepsChecks {
 
   @Step("Проверка тела ответа - (ok: true) и статус кода сервера на удаление курьера - 200")
   public void checkAnswerThenValidDeleting(Response response) {

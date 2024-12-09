@@ -6,7 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import steps.CourierStepsApi;
 import steps.CourierStepsChecks;
-import steps.OrderSteps;
+import steps.OrderStepsApi;
+import steps.OrderStepsChecks;
 
 import static random_data.CourierGeneratorData.getRandomCourier;
 import static random_data.RandomData.*;
@@ -15,14 +16,16 @@ import static steps.LoginCourierWithData.loginCourierWithData;
 
 public class OrderAcceptanceTest {
   CourierStepsApi courierStepsApi;
-  OrderSteps orderSteps;
+  OrderStepsApi orderStepsApi;
   CourierStepsChecks courierStepsChecks;
+  OrderStepsChecks orderStepsChecks;
 
   @Before
   public void setUp() {
     courierStepsApi = new CourierStepsApi();
-    orderSteps = new OrderSteps();
+    orderStepsApi = new OrderStepsApi();
     courierStepsChecks = new CourierStepsChecks();
+    orderStepsChecks = new OrderStepsChecks();
   }
 
   //Удаление курьера
@@ -47,9 +50,9 @@ public class OrderAcceptanceTest {
 
     //создаём заказ, получаем его id в системе
     //Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов
-    OrderSteps orderStep = new OrderSteps();
+    OrderStepsApi orderStep = new OrderStepsApi();
     Response createOrderResponse = orderStep.createNewOrderFromJsonInFile();
-    orderStep.checkOrderTrackNotNullNew(createOrderResponse);
+    orderStepsChecks.checkOrderTrackNotNullNew(createOrderResponse);
 
     //Response class has method path() using that, user can give the json path to get the particular value.
     //Ответ API конвертируем в строку и из строки достаём значение по ключу track
@@ -63,10 +66,10 @@ public class OrderAcceptanceTest {
     System.out.println("New order's id is " + orderId);
 
     //Попытка принятия заказа по существующим id заказа и курьера
-    orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID, orderId);
+    orderStepsChecks.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID, orderId);
 
     //Завершение заказа
-    orderStep.checkFinishOrderByValidOrderId(orderId);
+    orderStepsChecks.checkFinishOrderByValidOrderId(orderId);
 
   }
 
@@ -83,9 +86,9 @@ public class OrderAcceptanceTest {
 
     //создаём заказ, получаем его id в системе
     //Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов
-    OrderSteps orderStep = new OrderSteps();
+    OrderStepsApi orderStep = new OrderStepsApi();
     Response createOrderResponse = orderStep.createNewOrderFromJsonInFile();
-    orderStep.checkOrderTrackNotNullNew(createOrderResponse);
+    orderStepsChecks.checkOrderTrackNotNullNew(createOrderResponse);
     System.out.println("Response of API track is " + createOrderResponse.asString());
     //Response class has method path() using that, user can give the json path to get the particular value.
     //Ответ API конвертируем в строку и из строки достаём значение по ключу track
@@ -99,13 +102,13 @@ public class OrderAcceptanceTest {
     System.out.println("New order's id is " + orderId);
 
     //Попытка принятия заказа по существующим id заказа и курьера
-    orderStep.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID, orderId);
+    orderStepsChecks.checkAcceptanceOrderByValidCourierIdAndOrderId(courierID, orderId);
 
     //Попытка повторного принятия заказа по тем же id заказа и курьера
-    orderStep.checkRepeatAcceptanceOrder(courierID, orderId);
+    orderStepsChecks.checkRepeatAcceptanceOrder(courierID, orderId);
 
     //Завершение заказа
-    orderStep.checkFinishOrderByValidOrderId(orderId);
+    orderStepsChecks.checkFinishOrderByValidOrderId(orderId);
   }
 
   @Test
@@ -120,8 +123,8 @@ public class OrderAcceptanceTest {
     System.out.println("Courier's id is " + courierID);
 
     //Нет id заказа
-    OrderSteps orderStep = new OrderSteps();
-    orderStep.checkAcceptanceOrderWithoutOrderId(courierID);
+    OrderStepsApi orderStep = new OrderStepsApi();
+    orderStepsChecks.checkAcceptanceOrderWithoutOrderId(courierID);
 
   }
 
@@ -131,9 +134,9 @@ public class OrderAcceptanceTest {
   public void checkAcceptanceOrderWithoutCourierId() {
     //создаём заказ, получаем его id в системе
     //Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов
-    OrderSteps orderStep = new OrderSteps();
+    OrderStepsApi orderStep = new OrderStepsApi();
     Response createOrderResponse = orderStep.createNewOrderFromJsonInFile();
-    orderStep.checkOrderTrackNotNullNew(createOrderResponse);
+    orderStepsChecks.checkOrderTrackNotNullNew(createOrderResponse);
     System.out.println("Response of API track is " + createOrderResponse.asString());
     //Response class has method path() using that, user can give the json path to get the particular value.
     //Ответ API конвертируем в строку и из строки достаём значение по ключу track
@@ -147,7 +150,7 @@ public class OrderAcceptanceTest {
     System.out.println("New order's id is " + orderId);
 
     //Проверка принятия заказа без id курьера
-    orderStep.checkAcceptanceOrderWithoutCourierId(orderId);
+    orderStepsChecks.checkAcceptanceOrderWithoutCourierId(orderId);
 
   }
 
@@ -163,9 +166,8 @@ public class OrderAcceptanceTest {
     System.out.println("Courier's id is " + courierID);
 
     //Проверка запроса с несуществующим номером заказа
-    OrderSteps orderStep = new OrderSteps();
-    orderStep.checkAcceptanceOrderWithInvalidOrderId(courierID);
-
+    OrderStepsApi orderStep = new OrderStepsApi();
+    orderStepsChecks.checkAcceptanceOrderWithInvalidOrderId(courierID);
   }
 
   @Test
@@ -175,9 +177,9 @@ public class OrderAcceptanceTest {
 
     //создаём заказ, получаем его id в системе
     //Создание заказа из JSON файла и проверка успешности его создания для наполнения списка заказов
-    OrderSteps orderStep = new OrderSteps();
+    OrderStepsApi orderStep = new OrderStepsApi();
     Response createOrderResponse = orderStep.createNewOrderFromJsonInFile();
-    orderStep.checkOrderTrackNotNullNew(createOrderResponse);
+    orderStepsChecks.checkOrderTrackNotNullNew(createOrderResponse);
     System.out.println("Response of API track is " + createOrderResponse.asString());
     //Response class has method path() using that, user can give the json path to get the particular value.
     //Ответ API конвертируем в строку и из строки достаём значение по ключу track
@@ -191,8 +193,7 @@ public class OrderAcceptanceTest {
     System.out.println("New order's id is " + orderId);
 
     //Запрос с несуществующим id курьера
-    orderStep.checkAcceptanceOrderWithInvalidCourierId(orderId);
-
+    orderStepsChecks.checkAcceptanceOrderWithInvalidCourierId(orderId);
   }
 }
 
