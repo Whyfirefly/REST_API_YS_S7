@@ -1,0 +1,13 @@
+{
+    "firstName": "Янина",
+    "lastName": "Суварнабхуми",
+    "address": "Первомай, 314",
+    "metroStation": 5,
+    "phone": "+7-800-355-35-35",
+    "rentTime": 5,
+    "deliveryDate": "2023-03-21",
+    "comment": "Please, be careful",
+    "color": [
+        "BLACK"
+    ]
+}
