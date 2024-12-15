@@ -7,7 +7,7 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 <div align="center">
-<h2 align="center">Yandex Praktikum (QA Java) REST_API_Allure_YS_S7t</h2>
+<h2 align="center">Yandex Praktikum (QA Java) REST_API_Allure_YS_S7</h2>
   <p align="center">
    
  <br /> 
