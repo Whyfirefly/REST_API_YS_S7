@@ -7,7 +7,7 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 <div align="center">
-<h2 align="center">Yandex Praktikum (QA Java) REST Assured Allure Test</h2>
+<h2 align="center">Yandex Praktikum (QA Java) REST_API_Allure_YS_S7t</h2>
   <p align="center">
    
  <br /> 
@@ -26,6 +26,8 @@
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
+          </li>
+    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -112,5 +114,14 @@ qa-scooter.praktikum-services.ru/docs/</a>
 
 Откройте проект в IntelliJ IDEA.
 В терминале введите команду mvn clean test.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+
+## Contact
+Шмыглёва Яна - shmyaniv@mail.ru
+
+Project Link: [https://github.com/Whyfirefly/REST_API_YS_S7](https://github.com/Whyfirefly/REST_API_YS_S7)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
